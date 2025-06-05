@@ -80,24 +80,32 @@ export default function DashboardPage() {
                 />
                 <Button type="submit" variant="contained" disabled={loading}>Apply Filters</Button>
             </form>
-            <Grid container spacing={2}>
+            <Grid container spacing={3}>
                 {filteredAthletes.map(a => (
                     <Grid item xs={12} md={6} lg={4} key={a.id}>
-                        <Card>
-                            <CardContent>
-                                <Typography variant="h6">{a.name} ({a.sport})</Typography>
-                                <Typography variant="body2">Age: {a.age} | ID: {a.uniqueId}</Typography>
-                                <Box sx={{ mt: 1 }}>
-                                    <Typography variant="subtitle2">Recent Videos:</Typography>
+                        <Card elevation={2} sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                            <CardContent sx={{ flexGrow: 1 }}>
+                                <Typography variant="h6" component="div" gutterBottom>
+                                    {a.name} ({a.sport})
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5 }}>
+                                    Age: {a.age} | ID: {a.uniqueId}
+                                </Typography>
+                                <Box sx={{ mt: 2, pt: 2, borderTop: '1px solid #eee' }}>
+                                    <Typography variant="subtitle1" component="div" gutterBottom>
+                                        Recent Videos:
+                                    </Typography>
                                     {a.Videos?.length ? a.Videos.map(v => (
-                                        <Chip key={v.id} label={v.originalname} sx={{ mr: 1, mb: 1 }} />
-                                    )) : <Typography variant="body2">No videos</Typography>}
+                                        <Chip key={v.id} label={v.originalname} size="small" sx={{ mr: 1, mb: 1 }} />
+                                    )) : <Typography variant="body2" color="text.secondary">No videos</Typography>}
                                 </Box>
-                                <Box sx={{ mt: 1 }}>
-                                    <Typography variant="subtitle2">Performance Metrics:</Typography>
+                                <Box sx={{ mt: 2, pt: 2, borderTop: '1px solid #eee' }}>
+                                    <Typography variant="subtitle1" component="div" gutterBottom>
+                                        Performance Metrics:
+                                    </Typography>
                                     {a.PerformanceMetrics?.length ? a.PerformanceMetrics.map(m => (
-                                        <Chip key={m.id} label={`${m.metricName}: ${m.value}`} sx={{ mr: 1, mb: 1 }} />
-                                    )) : <Typography variant="body2">No metrics</Typography>}
+                                        <Chip key={m.id} label={`${m.metricName}: ${m.value}`} size="small" sx={{ mr: 1, mb: 1 }} />
+                                    )) : <Typography variant="body2" color="text.secondary">No metrics</Typography>}
                                 </Box>
                             </CardContent>
                         </Card>

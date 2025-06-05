@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, Button, Box, Select, MenuItem, InputLabel, FormControl, Chip } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, Button, Box, Select, MenuItem, InputLabel, FormControl, Chip, Container } from '@mui/material';
 import axios from 'axios';
 
 const API = 'http://localhost:5000';
@@ -36,58 +36,60 @@ export default function VideoPage() {
     };
 
     return (
-        <Box>
-            <h2>Videos</h2>
-            <form onSubmit={handleSubmit} style={{ marginBottom: 24 }}>
-                <input type="file" name="video" accept="video/*" onChange={handleChange} required style={{ marginRight: 16 }} />
-                <FormControl sx={{ minWidth: 120, marginRight: 2 }}>
-                    <InputLabel>Athletes</InputLabel>
-                    <Select
-                        multiple
-                        name="athleteIds"
-                        value={form.athleteIds}
-                        onChange={e => setForm({ ...form, athleteIds: e.target.value })}
-                        renderValue={selected => (
-                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                {selected.map(id => {
-                                    const a = athletes.find(a => a.id === id);
-                                    return <Chip key={id} label={a ? a.name : id} />;
-                                })}
-                            </Box>
-                        )}
-                    >
-                        {athletes.map(a => (
-                            <MenuItem key={a.id} value={a.id}>{a.name}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-                <TextField label="Duration (sec)" name="duration" value={form.duration} onChange={handleChange} type="number" sx={{ mr: 2 }} />
-                <Button type="submit" variant="contained">Upload Video</Button>
-            </form>
-            <TableContainer component={Paper}>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Filename</TableCell>
-                            <TableCell>Status</TableCell>
-                            <TableCell>Upload Date</TableCell>
-                            <TableCell>Duration</TableCell>
-                            <TableCell>Athletes</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {videos.map(v => (
-                            <TableRow key={v.id}>
-                                <TableCell>{v.originalname}</TableCell>
-                                <TableCell>{v.status}</TableCell>
-                                <TableCell>{new Date(v.uploadDate).toLocaleString()}</TableCell>
-                                <TableCell>{v.duration}</TableCell>
-                                <TableCell>{v.Athletes?.map(a => a.name).join(', ')}</TableCell>
+        <Container sx={{ mt: 4, mb: 4 }}>
+            <Box>
+                <h2>Videos</h2>
+                <form onSubmit={handleSubmit} style={{ marginBottom: 24 }}>
+                    <input type="file" name="video" accept="video/*" onChange={handleChange} required style={{ marginRight: 16 }} />
+                    <FormControl sx={{ minWidth: 120, marginRight: 2 }}>
+                        <InputLabel>Athletes</InputLabel>
+                        <Select
+                            multiple
+                            name="athleteIds"
+                            value={form.athleteIds}
+                            onChange={e => setForm({ ...form, athleteIds: e.target.value })}
+                            renderValue={selected => (
+                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                    {selected.map(id => {
+                                        const a = athletes.find(a => a.id === id);
+                                        return <Chip key={id} label={a ? a.name : id} />;
+                                    })}
+                                </Box>
+                            )}
+                        >
+                            {athletes.map(a => (
+                                <MenuItem key={a.id} value={a.id}>{a.name}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    <TextField label="Duration (sec)" name="duration" value={form.duration} onChange={handleChange} type="number" sx={{ mr: 2 }} />
+                    <Button type="submit" variant="contained">Upload Video</Button>
+                </form>
+                <TableContainer component={Paper}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Filename</TableCell>
+                                <TableCell>Status</TableCell>
+                                <TableCell>Upload Date</TableCell>
+                                <TableCell>Duration</TableCell>
+                                <TableCell>Athletes</TableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Box>
+                        </TableHead>
+                        <TableBody>
+                            {videos.map(v => (
+                                <TableRow key={v.id}>
+                                    <TableCell>{v.originalname}</TableCell>
+                                    <TableCell>{v.status}</TableCell>
+                                    <TableCell>{new Date(v.uploadDate).toLocaleString()}</TableCell>
+                                    <TableCell>{v.duration}</TableCell>
+                                    <TableCell>{v.Athletes?.map(a => a.name).join(', ')}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Box>
+        </Container>
     );
 } 
