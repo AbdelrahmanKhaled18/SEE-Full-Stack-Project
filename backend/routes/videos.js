@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const { Video, Athlete, VideoAthlete } = require('../models');
+const { Op } = require('sequelize');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -74,7 +75,7 @@ router.get('/filter', async (req, res) => {
         if (sport) {
             include.push({
                 association: 'Athletes',
-                where: { sport },
+                where: { sport: { [Op.iLike]: sport } },
                 through: { attributes: [] }
             });
         } else {
